@@ -53,8 +53,17 @@ export default function Navbar() {
             <Link href="/cars" className="text-gray-600 hover:text-blue-600 text-sm font-medium">
               ซื้อ-ขายรถ
             </Link>
+            <Link href="/cars/compare" className="text-gray-600 hover:text-blue-600 text-sm font-medium">
+              เปรียบเทียบรถ
+            </Link>
             <Link href="/garages" className="text-gray-600 hover:text-blue-600 text-sm font-medium">
               หาอู่ซ่อมรถ
+            </Link>
+            <Link href="/insurance" className="text-gray-600 hover:text-blue-600 text-sm font-medium">
+              ประกันรถ
+            </Link>
+            <Link href="/blog" className="text-gray-600 hover:text-blue-600 text-sm font-medium">
+              บทความ
             </Link>
           </div>
 
