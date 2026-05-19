@@ -46,6 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin', label: 'ภาพรวม', icon: '📊' },
     { href: '/admin/cars', label: 'ประกาศรถ', icon: '🚗' },
     { href: '/admin/garages', label: 'อู่ซ่อมรถ', icon: '🔧' },
+    { href: '/admin/appointments', label: 'นัดหมาย', icon: '📅' },
     { href: '/admin/users', label: 'ผู้ใช้งาน', icon: '👥' },
     { href: '/admin/reports', label: 'รายงาน', icon: '🚩' },
   ]

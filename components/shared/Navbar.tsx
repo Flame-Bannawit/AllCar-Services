@@ -108,6 +108,13 @@ export default function Navbar() {
                         <span>💬</span> แชทของฉัน
                       </Link>
                       <Link
+                        href="/appointments"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <span>📅</span> นัดหมายของฉัน
+                      </Link>
+                      <Link
                         href="/cars/create"
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 md:hidden"

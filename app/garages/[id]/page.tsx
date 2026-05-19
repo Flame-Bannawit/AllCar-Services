@@ -318,12 +318,20 @@ export default function GarageDetailPage() {
             <p className="font-semibold text-gray-900 text-lg">{garage.name}</p>
 
             {currentUser?.id !== garage.owner_id && (
-              <button
-                onClick={handleChat}
-                className="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition"
-              >
-                💬 แชทกับอู่
-              </button>
+              <>
+                <Link
+                  href={`/garages/${garage.id}/book`}
+                  className="block w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition text-center"
+                >
+                  📅 นัดซ่อมรถ
+                </Link>
+                <button
+                  onClick={handleChat}
+                  className="w-full border border-blue-600 text-blue-600 py-3 rounded-xl font-medium hover:bg-blue-50 transition"
+                >
+                  💬 แชทกับอู่
+                </button>
+              </>
             )}
 
             <button

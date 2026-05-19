@@ -13,6 +13,7 @@ interface CarListing {
   province: string
   images: string[]
   status: string
+  seller_id: string
   created_at: string
   profiles: {
     full_name: string
@@ -46,6 +47,22 @@ export default function AdminCarsPage() {
       .from('car_listings')
       .update({ status })
       .eq('id', id)
+
+    const car = cars.find(c => c.id === id)
+    if (car && (status === 'active' || status === 'rejected')) {
+      if (car.profiles?.email) {
+        await fetch('/api/email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: status === 'active' ? 'listing_approved' : 'listing_rejected',
+            to: car.profiles.email,
+            data: { id: car.id, title: car.title },
+          }),
+        })
+      }
+    }
+
     fetchCars()
   }
 
@@ -59,16 +76,13 @@ export default function AdminCarsPage() {
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-6">จัดการประกาศรถ</h1>
 
-      {/* Filter Tabs */}
       <div className="flex gap-2 mb-6">
         {['pending', 'active', 'rejected'].map(s => (
           <button
             key={s}
             onClick={() => setFilter(s)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-              filter === s
-                ? 'bg-blue-600 text-white'
-                : 'bg-white border text-gray-600 hover:bg-gray-50'
+              filter === s ? 'bg-blue-600 text-white' : 'bg-white border text-gray-600 hover:bg-gray-50'
             }`}
           >
             {statusLabel[s]}
@@ -94,8 +108,6 @@ export default function AdminCarsPage() {
         <div className="space-y-3">
           {cars.map(car => (
             <div key={car.id} className="bg-white rounded-xl border p-4 flex gap-4">
-
-              {/* รูป */}
               <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                 {car.images?.[0] ? (
                   <img src={car.images[0]} alt="" className="w-full h-full object-cover" />
@@ -104,7 +116,6 @@ export default function AdminCarsPage() {
                 )}
               </div>
 
-              {/* ข้อมูล */}
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-gray-900 truncate">{car.title}</h3>
                 <p className="text-sm text-gray-500 mt-1">
@@ -117,13 +128,8 @@ export default function AdminCarsPage() {
                 </p>
               </div>
 
-              {/* Actions */}
               <div className="flex flex-col gap-2 justify-center flex-shrink-0">
-                <a
-                  href={`/cars/${car.id}`}
-                  target="_blank"
-                  className="text-xs text-blue-600 hover:underline text-center"
-                >
+                <a href={`/cars/${car.id}`} target="_blank" className="text-xs text-blue-600 hover:underline text-center">
                   ดูประกาศ →
                 </a>
                 {filter === 'pending' && (
