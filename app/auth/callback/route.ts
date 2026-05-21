@@ -5,11 +5,11 @@ import { NextResponse } from 'next/server'
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
+
+  console.log('Auth callback called, code:', code ? 'exists' : 'missing')
 
   if (code) {
     const cookieStore = await cookies()
-
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -32,11 +32,14 @@ export async function GET(request: Request) {
       }
     )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    console.log('Exchange result - error:', error?.message, 'session:', data?.session ? 'exists' : 'missing')
 
     if (!error) {
       return NextResponse.redirect('https://all-car-services.vercel.app/')
     }
+
+    console.log('Redirecting to login due to error:', error?.message)
   }
 
   return NextResponse.redirect('https://all-car-services.vercel.app/login?error=auth')
