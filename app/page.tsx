@@ -45,9 +45,13 @@ export default function Home() {
     const hash = window.location.hash
     if (hash.includes('code=')) {
       const code = hash.split('code=')[1].split('&')[0]
-      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
-        if (!error) {
-          window.location.replace('https://all-car-services.vercel.app/')
+      supabase.auth.exchangeCodeForSession(code).then(({ data, error }) => {
+        console.log('exchange result:', error, data?.session?.user?.email)
+        window.history.replaceState(null, '', window.location.pathname)
+        if (!error && data?.session) {
+          setTimeout(() => {
+          window.location.reload()
+          }, 500)
         }
       })
     }
