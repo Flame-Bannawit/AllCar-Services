@@ -2,32 +2,38 @@
 
 import { createClient } from '@/lib/supabase/client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
   const supabase = createClient()
 
   const handleGoogleLogin = async () => {
     setLoading(true)
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `https://all-car-services.vercel.app/auth/callback`,
-        skipBrowserRedirect: false,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       },
     })
+
     if (error) {
       console.error(error)
       setLoading(false)
+      return
+    }
+
+    if (data?.url) {
+      window.location.href = data.url
     }
   }
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-sm border p-8 w-full max-w-md">
-
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-blue-600 mb-1">AllCar Services</h1>
           <p className="text-gray-500 text-sm">เข้าสู่ระบบเพื่อใช้งาน</p>
