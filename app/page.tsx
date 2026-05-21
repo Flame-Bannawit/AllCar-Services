@@ -42,7 +42,14 @@ export default function Home() {
   const supabase = createClient()
 
   useEffect(() => {
-    fetchData()
+    const hash = window.location.hash
+    if (hash.includes('code=')) {
+      const code = hash.split('code=')[1]
+      supabase.auth.exchangeCodeForSession(code).then(() => {
+        window.location.hash = ''
+        fetchData()
+      })
+    }
   }, [])
 
   const fetchData = async () => {
