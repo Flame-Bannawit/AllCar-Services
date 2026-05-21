@@ -44,10 +44,11 @@ export default function Home() {
   useEffect(() => {
     const hash = window.location.hash
     if (hash.includes('code=')) {
-      const code = hash.split('code=')[1]
-      supabase.auth.exchangeCodeForSession(code).then(() => {
-        window.location.hash = ''
-        fetchData()
+      const code = hash.split('code=')[1].split('&')[0]
+      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+        if (!error) {
+          window.location.replace('https://all-car-services.vercel.app/')
+        }
       })
     }
   }, [])
