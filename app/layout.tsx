@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: 'AllCar Services — ซื้อขายรถมือสอง หาอู่ซ่อมรถ',
   description: 'Platform รถยนต์ครบวงจร ซื้อขายรถมือสอง หาอู่ซ่อมใกล้บ้าน พร้อมระบบรีวิวที่น่าเชื่อถือ',
   manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    apple: '/icon-192.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
