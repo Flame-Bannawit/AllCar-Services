@@ -6,7 +6,7 @@ export async function GET(request: Request) {
 
   if (code) {
     return NextResponse.redirect(
-      `https://all-car-services.vercel.app/#code=${code}`
+      `https://all-car-services.vercel.app/auth/confirm#code=${code}`
     )
   }
 
